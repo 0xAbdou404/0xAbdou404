@@ -121,7 +121,12 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None):
 def stars_counter(data):
     total = 0
     for node in data:
-        total += node["node"]["stargazers"]["totalCount"]
+        if node.get("node") is None:
+            continue
+        stargazers = node["node"].get("stargazers")
+        if stargazers is None:
+            continue
+        total += stargazers["totalCount"]
     return total
 
 
