@@ -97,10 +97,12 @@ def stat_two(l_label, l_value, r_label, r_value, cols):
 
 
 def stat_loc(loc, added, deleted, cols):
-    return [("- ", "dim"), ("Lines of Code on GitHub", "label"), (": ", "fg"),
-            (loc, "value"), (" ( ", "dim"),
-            (f"{added}++", "green"), (",  ", "dim"),
-            (f"{deleted}--", "red"), (" )", "dim")]
+    runs = [("- ", "dim"), ("Lines of Code on GitHub", "label"), (": ", "fg"),
+            (loc, "value")]
+    if added and deleted:
+        runs += [(" ( ", "dim"), (f"{added}++", "green"), (",  ", "dim"),
+                 (f"{deleted}--", "red"), (" )", "dim")]
+    return runs
 
 
 def build_lines(cfg, cols):
@@ -118,7 +120,7 @@ def build_lines(cfg, cols):
     s = cfg["stats"]
     lines.append(stat_two("Repos", s["repos"], "Stars", s["stars"], cols))
     lines.append(stat_two("Commits", s["commits"], "Followers", s["followers"], cols))
-    lines.append(stat_loc(s["loc"], s["added"], s["deleted"], cols))
+    lines.append(stat_loc(s["loc"], s.get("added", ""), s.get("deleted", ""), cols))
     return lines
 
 
@@ -135,8 +137,9 @@ def natural_cols(cfg):
         c.append((len(f"- {a}: ") + 2 + len(b)) * 2 + 3)
     for a, b in [("Stars", s["stars"]), ("Followers", s["followers"])]:
         c.append((len(f"{a}: ") + 2 + len(b)) * 2 + 3)
-    c.append(len("- Lines of Code on GitHub: ") + len(s["loc"]) +
-             len(f" ( {s['added']}++,  {s['deleted']}-- )"))
+    added, deleted = s.get("added", ""), s.get("deleted", "")
+    extra = len(f" ( {added}++,  {deleted}-- )") if added and deleted else 0
+    c.append(len("- Lines of Code on GitHub: ") + len(s["loc"]) + extra)
     return max(c)
 
 

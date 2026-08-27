@@ -27,12 +27,10 @@
   ],
 
   "stats": {
-    "repos": "12",
-    "stars": "34",
-    "commits": "1,204",
-    "followers": "20",
-    "loc": "120,000",
-    "added": "90,000",
-    "deleted": "30,000"
+    "repos": "10",
+    "stars": "2",
+    "commits": "100",
+    "followers": "6",
+    "loc": "30,000"
   }
 }
