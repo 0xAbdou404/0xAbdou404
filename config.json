@@ -1,36 +1,71 @@
 {
   "user": "0xAbdou404",
   "host": "kali",
-
   "groups": [
     [
-      ["OS", "Linux (Arch, Kali), Windows"],
-      ["Uptime", "21 years"],
-      ["Host", "B.S. Cybersecurity"],
-      ["Shell", "bash, zsh"],
-      ["IDE", "VSCode, Neovim"]
+      [
+        "OS",
+        "Linux (Arch, Kali), Windows"
+      ],
+      [
+        "Uptime",
+        "21 years"
+      ],
+      [
+        "Host",
+        "B.S. Cybersecurity"
+      ],
+      [
+        "Shell",
+        "bash, zsh"
+      ],
+      [
+        "IDE",
+        "VSCode, Neovim"
+      ]
     ],
     [
-      ["Languages.Programming", "Python, Bash, C"],
-      ["Languages.Computer", "HTML, SQL, YAML, Markdown"],
-      ["Languages.Real", "English"]
+      [
+        "Languages.Programming",
+        "Python, Bash, C"
+      ],
+      [
+        "Languages.Computer",
+        "HTML, SQL, YAML, Markdown"
+      ],
+      [
+        "Languages.Real",
+        "English"
+      ]
     ],
     [
-      ["Interests.Security", "Networking, Penetration Testing, CTFs"],
-      ["Interests.Systems", "Homelab, Raspberry Pi, Docker"]
+      [
+        "Interests.Security",
+        "Networking, Penetration Testing, CTFs"
+      ],
+      [
+        "Interests.Systems",
+        "Homelab, Raspberry Pi, Docker"
+      ]
     ]
   ],
-
   "contact": [
-    ["Email", "abderahmenenemmour@gmail.com"],
-    ["GitHub", "@0xAbdou404"]
+    [
+      "Email",
+      "abderahmenenemmour@gmail.com"
+    ],
+    [
+      "GitHub",
+      "@0xAbdou404"
+    ]
   ],
-
   "stats": {
-    "repos": "10",
-    "stars": "2",
-    "commits": "100",
+    "repos": "11",
+    "stars": "0",
+    "commits": "135",
     "followers": "6",
-    "loc": "30,000"
+    "loc": "58,627",
+    "added": "75,059",
+    "deleted": "16,432"
   }
 }
