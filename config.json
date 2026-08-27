@@ -1,0 +1,39 @@
+{
+  "user": "0xAbdou404",
+  "host": "kali",
+
+  "groups": [
+    [
+      ["OS", "Linux (Arch, Kali), Windows"],
+      ["Uptime", "20 years"],
+      ["Host", "B.S. Cybersecurity"],
+      ["Shell", "bash, zsh"],
+      ["IDE", "VSCode, Neovim"]
+    ],
+    [
+      ["Languages.Programming", "Python, Bash, C"],
+      ["Languages.Computer", "HTML, SQL, YAML, Markdown"],
+      ["Languages.Real", "English"]
+    ],
+    [
+      ["Interests.Security", "Networking, Pentesting, CTFs"],
+      ["Interests.Systems", "Homelab, Raspberry Pi, Docker"]
+    ]
+  ],
+
+  "contact": [
+    ["Email", "you@example.com"],
+    ["GitHub", "@yourhandle"],
+    ["LinkedIn", "/in/yourname"]
+  ],
+
+  "stats": {
+    "repos": "12",
+    "stars": "34",
+    "commits": "1,204",
+    "followers": "20",
+    "loc": "120,000",
+    "added": "90,000",
+    "deleted": "30,000"
+  }
+}
