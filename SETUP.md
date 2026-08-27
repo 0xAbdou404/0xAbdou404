@@ -1,77 +1,128 @@
-# Setting up your neofetch-style GitHub profile
+# Setting up your self-updating neofetch profile
 
-Your profile card is a pre-rendered SVG (dark + light). GitHub shows the right
-one automatically based on the viewer's theme. Everything you need is in this
-folder.
+Your profile card is a pre-rendered SVG (dark + light — GitHub picks the right
+one for the viewer's theme). A GitHub Action re-fetches your real stats and
+rebuilds the card automatically, so you never hand-edit the numbers.
 
-## What actually gets uploaded to GitHub
+- **`config.json`** — the text fields (OS, Uptime, Host, Shell, IDE, Languages,
+  Interests, Contact). You edit these.
+- **`update_stats.py`** — queries the GitHub API for repos / stars / commits /
+  followers / lines-of-code and writes them into `config.json`.
+- **`generate.py`** — renders `assets/dark_mode.svg` + `light_mode.svg`.
+- **`.github/workflows/build.yaml`** — runs the two scripts on a schedule.
 
-Only three files are required — the SVGs already have the portrait embedded, so
-you do **not** need the PNGs:
+Because the stats update in CI, **push the whole folder** to your repo (not just
+the SVGs) — the Action needs the scripts, the portrait PNGs, and the `cache/`
+folder to run.
 
-```
-README.md
-assets/dark_mode.svg
-assets/light_mode.svg
-```
-
-The rest (`generate.py`, `config.json`, `photo_to_ascii.py`, the PNGs) are just
-the "source" so you can regenerate the card later. Keep them, but they don't
-have to be in the profile repo.
+---
 
 ## Step 1 — Create the special profile repo
 
 1. Go to https://github.com/new
-2. Set **Repository name** to your username, spelled **exactly** the same.
-   If your username is `janedoe`, the repo must be `janedoe/janedoe`.
-   (GitHub will show a little "✨ You found a secret!" note when you get it right.)
-3. Set it to **Public**.
-4. Tick **Add a README file**.
-5. Click **Create repository**.
+2. Set **Repository name** to your username, spelled **exactly**: `0xAbdou404`.
+   The repo must be `0xAbdou404/0xAbdou404` (GitHub shows a "✨ You found a
+   secret!" note when you get it right).
+3. Set it **Public**.
+4. Create it. (This repo is already created and cloned to this folder.)
 
-## Step 2 — Add the files (easiest: web upload)
+## Step 2 — Push this folder
 
-1. In your new repo click **Add file ▸ Upload files**.
-2. Drag in `README.md`.
-3. Drag in the whole `assets` folder (or create an `assets` folder and drop the
-   two `*_mode.svg` files inside it). The paths must stay `assets/dark_mode.svg`
-   and `assets/light_mode.svg`.
-4. **Commit changes.**
-
-Prefer git? From this folder:
+Origin is already configured. From this folder:
 
 ```bash
-git init
-git add README.md assets/dark_mode.svg assets/light_mode.svg
-git commit -m "neofetch profile"
-git branch -M main
-git remote add origin https://github.com/<username>/<username>.git
-git push -u origin main
+git push origin main
 ```
 
-Visit `github.com/<username>` — the card shows on your profile.
+Visit `github.com/0xAbdou404` — the card shows on your profile right away, using
+the current numbers in `config.json`. Next we make those numbers self-updating.
 
-## Step 3 — Editing it later
+## Step 3 — Create the access token
 
-Open `config.json`, change any text (name, links, stats, interests), then:
+The Action needs a token to read your GitHub data. Use a **fine-grained** token
+with **read-only** scopes — nothing more.
+
+1. Open https://github.com/settings/personal-access-tokens/new
+   (Settings ▸ Developer settings ▸ Personal access tokens ▸ Fine-grained tokens
+   ▸ Generate new token).
+2. **Token name:** `profile-card`
+3. **Expiration:** pick a length you're comfortable with (e.g. 90 days or 1 year).
+   You'll need to regenerate it when it expires.
+4. **Resource owner:** your account (`0xAbdou404`).
+5. **Repository access:** *All repositories* — so lines-of-code can be counted
+   across everything you own. (Pick *Public repositories* only if you want the
+   numbers to exclude private work.)
+6. **Permissions ▸ Repository permissions:**
+   - **Contents** → Read-only
+   - **Metadata** → Read-only (selected automatically)
+   - **Commit statuses** → Read-only *(optional)*
+7. **Permissions ▸ Account permissions:**
+   - **Followers** → Read-only
+   - **Starring** → Read-only
+8. **Generate token** and **copy it now** — GitHub shows it only once.
+
+## Step 4 — Add the token as a repo secret
+
+1. In your `0xAbdou404/0xAbdou404` repo: **Settings ▸ Secrets and variables ▸
+   Actions ▸ New repository secret**.
+2. **Name:** `ACCESS_TOKEN` (exactly).
+3. **Secret:** paste the token.
+4. **Add secret.**
+
+You do **not** need a `USER_NAME` secret — the workflow reads the repo owner
+automatically.
+
+## Step 5 — Allow the Action to commit
+
+**Settings ▸ Actions ▸ General ▸ Workflow permissions** → select
+**Read and write permissions** → **Save**. This lets the bot push the refreshed
+card back to the repo.
+
+## Step 6 — Run it once now
+
+1. Go to the **Actions** tab.
+2. Pick **Update profile card** in the left sidebar.
+3. Click **Run workflow ▸ Run workflow**.
+4. Wait ~1–2 minutes. It fetches your real numbers, rebuilds the SVGs, and
+   commits them with a `chore: refresh profile stats` message.
+
+After that it runs on its own **every day at 04:00 UTC**, plus whenever you push
+a change to the scripts. You can always trigger it manually from the Actions tab.
+
+---
+
+## Editing the card later
+
+For the **text** fields (OS, Interests, links, etc.), edit `config.json` and
+push — the next Action run re-renders. To preview locally:
 
 ```bash
-pip install pycairo pillow      # one-time
-python3 generate.py             # rewrites assets/dark_mode.svg + light_mode.svg
+pip install pycairo          # one-time
+python3 generate.py          # rewrites the two SVGs from config.json
 ```
 
-Re-upload the two SVGs. That's it. If you'd rather not run Python, just send the
-updated details to Claude and ask for freshly regenerated SVGs.
+You don't touch the **stats** block — the Action overwrites it every run.
 
 ## Swapping the portrait
 
-Put your ASCII-art image next to the scripts and re-run the recolor step (Claude
-can do this for you), or replace `assets/portrait_dark.png` /
-`assets/portrait_light.png` and re-run `generate.py`.
+Replace `assets/portrait_dark.png` / `assets/portrait_light.png` (same size),
+then re-run `generate.py` — or send Claude a new image to recolor.
 
-## Notes
+## Token scopes, at a glance
 
-- The stats (repos, commits, lines of code) are **static** numbers you set in
-  `config.json` — update them whenever you like.
-- Want them to auto-update instead? That needs a GitHub Actions workflow; ask
-  Claude to set up the automated version.
+Read-only: Contents, Metadata, Commit statuses (repo) · Followers, Starring
+(account). No write scopes, no admin, no delete. If a run fails, it's almost
+always the token.
+
+## Troubleshooting
+
+- **`ACCESS_TOKEN is not set`** in the log → the secret is missing or misnamed.
+- **`Permission ... denied` / 403 on the commit step** → do Step 5 (Read and
+  write permissions).
+- **Lines of code look low / zero** → the token can't see those repos; set
+  repository access to *All repositories* (Step 3.5).
+- **Numbers include private repos and you don't want that** → regenerate the
+  token with *Public repositories* access only.
+- **Nothing happens on a normal push** → expected. The Action only rebuilds on a
+  push when you change the scripts; otherwise it's the daily schedule or the
+  manual button.
