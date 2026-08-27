@@ -5,7 +5,7 @@
   "groups": [
     [
       ["OS", "Linux (Arch, Kali), Windows"],
-      ["Uptime", "20 years"],
+      ["Uptime", "21 years"],
       ["Host", "B.S. Cybersecurity"],
       ["Shell", "bash, zsh"],
       ["IDE", "VSCode, Neovim"]
@@ -16,15 +16,14 @@
       ["Languages.Real", "English"]
     ],
     [
-      ["Interests.Security", "Networking, Pentesting, CTFs"],
+      ["Interests.Security", "Networking, Penetration Testing, CTFs"],
       ["Interests.Systems", "Homelab, Raspberry Pi, Docker"]
     ]
   ],
 
   "contact": [
-    ["Email", "you@example.com"],
-    ["GitHub", "@yourhandle"],
-    ["LinkedIn", "/in/yourname"]
+    ["Email", "abderahmenenemmour@gmail.com"],
+    ["GitHub", "@0xAbdou404"]
   ],
 
   "stats": {

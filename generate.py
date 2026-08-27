@@ -44,6 +44,20 @@ def hexrgb(h):
     return int(h[0:2], 16) / 255, int(h[2:4], 16) / 255, int(h[4:6], 16) / 255
 
 
+def _portrait_path(theme):
+    """Resolve the portrait next to this script, cross-platform, with a clear
+    error if the assets folder wasn't copied along with generate.py."""
+    rel = theme["portrait"].split("/")          # "assets/portrait_dark.png"
+    path = os.path.join(HERE, *rel)
+    if not os.path.exists(path):
+        raise SystemExit(
+            f"\nPortrait not found:\n  {path}\n\n"
+            "Make sure the 'assets' folder (with portrait_dark.png and "
+            "portrait_light.png) sits right next to generate.py.\n"
+        )
+    return path
+
+
 # --------------------------------------------------------------------------
 # line builders: each returns a list of (text, color_key) "runs"
 # --------------------------------------------------------------------------
@@ -146,7 +160,7 @@ def draw(ctx, theme, cfg, cols, lines, char_w, fasc, portrait_geom):
     panel_x = PADX + pw + GAP
 
     # portrait (themed PNG) painted as scaled image
-    img = cairo.ImageSurface.create_from_png(os.path.join(HERE, T["portrait"]))
+    img = cairo.ImageSurface.create_from_png(_portrait_path(T))
     iw, ih = img.get_width(), img.get_height()
     ctx.save()
     ctx.translate(px, py)
@@ -175,7 +189,7 @@ def render(theme, cfg, cols, lines, char_w, fasc, fdesc):
     panel_block = nrows * LINE
     ph = max(240, min(430, panel_block * 0.96))
     # portrait native aspect
-    img = cairo.ImageSurface.create_from_png(os.path.join(HERE, T["portrait"]))
+    img = cairo.ImageSurface.create_from_png(_portrait_path(T))
     pw = ph * img.get_width() / img.get_height()
     panel_x = PADX + pw + GAP
     W = int(panel_x + cols * char_w + PADX)

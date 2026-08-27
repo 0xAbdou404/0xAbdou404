@@ -1,0 +1,7 @@
+# Python virtual environment
+.venv/
+__pycache__/
+*.pyc
+
+# Local preview renders (not needed in the repo)
+assets/preview_*.png
