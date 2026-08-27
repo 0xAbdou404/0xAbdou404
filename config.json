@@ -17,17 +17,17 @@
       ],
       [
         "Shell",
-        "bash, zsh"
+        "bash"
       ],
       [
         "IDE",
-        "VSCode, Neovim"
+        "VSCode"
       ]
     ],
     [
       [
         "Languages.Programming",
-        "Python, Bash, C"
+        "Python, Bash, C++"
       ],
       [
         "Languages.Computer",
@@ -35,7 +35,7 @@
       ],
       [
         "Languages.Real",
-        "English"
+        "English, Arabic"
       ]
     ],
     [
